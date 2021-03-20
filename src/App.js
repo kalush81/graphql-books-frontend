@@ -1,4 +1,5 @@
 import BookList from "./components/BookList";
+import AddBook from "./components/AddBook";
 import { ApolloProvider } from "@apollo/client";
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
@@ -14,6 +15,7 @@ function App() {
       <div className="App">
         <h1>Books and Authors FullStack Appa</h1>
         <BookList />
+        <AddBook />
       </div>
     </ApolloProvider>
   );

@@ -14,7 +14,6 @@ export default function BookList() {
   //const [bookIndex, setBookIndex] = useState(null);
   const query = useQuery(allBooks);
 
-  console.log("data", query);
   if (query.loading) {
     return <p>...is loading</p>;
   }
