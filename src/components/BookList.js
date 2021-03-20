@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useQuery, gql } from "@apollo/client";
 
 const allBooks = gql`
@@ -6,20 +6,12 @@ const allBooks = gql`
     allBooks {
       id
       title
-      genre
-      author {
-        name
-        books {
-          id
-          title
-        }
-      }
     }
   }
 `;
 
 export default function BookList() {
-  const [bookIndex, setBookIndex] = useState(null);
+  //const [bookIndex, setBookIndex] = useState(null);
   const query = useQuery(allBooks);
 
   console.log("data", query);
@@ -33,20 +25,6 @@ export default function BookList() {
         return (
           <li key={book.id}>
             <p>title: {book.title}</p>
-            <p>genre: {book.genre}</p>
-            <p>author name: {book.author.name}</p>
-            <button onClick={() => setBookIndex(idx)}>
-              check other books of this author
-            </button>
-
-            {bookIndex === idx ? (
-              <ul>
-                {book.author.books.map((b) => (
-                  <li key={b.id}>{b.title}</li>
-                ))}
-              </ul>
-            ) : null}
-
             <hr />
           </li>
         );

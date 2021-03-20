@@ -9,8 +9,6 @@ const client = new ApolloClient({
 });
 
 function App() {
-  //const {data} = useQuery(allAthors)
-  //console.log('data', data)
   return (
     <ApolloProvider client={client}>
       <div className="App">
