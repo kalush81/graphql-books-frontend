@@ -33,11 +33,10 @@ export default function AddBook() {
     const genre = genreRef.current.value;
     let authorId = authorIdRef.current.value;
 
-    // Add book with Apollo query
     AddBook({ variables: { title, genre, authorId }, refetchQueries: [{query: allBooks }] });
 
     //TODO
-    // set authorIdRef.current.value to be empty string after every render
+    // reset authorIdRef.current.value to empty string after every render
 
   };
   if (error) {
