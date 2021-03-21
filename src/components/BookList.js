@@ -11,7 +11,7 @@ export const allBooks = gql`
 `;
 
 export default function BookList() {
-  //const [bookIndex, setBookIndex] = useState(null);
+  
   const query = useQuery(allBooks);
 
   if (query.loading) {
