@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useQuery, gql, useMutation } from "@apollo/client";
-import {allBooks} from "./BookList"
+import { allBooks } from "./BookList";
 
 const getAuthorsQuery = gql`
   {
@@ -21,26 +21,38 @@ const addBookMutation = gql`
 `;
 
 export default function AddBook() {
-  const [ AddBook, { loading, error } ] = useMutation(addBookMutation);
+  const [AddBook, { loading, error }] = useMutation(addBookMutation, {
+    onError: ({...graphQLErrors}) => { 
+      setErrorMsg(graphQLErrors.message) 
+      //return forward()
+    }
+  })
   const query = useQuery(getAuthorsQuery);
 
-  const titleRef = useRef();
-  const genreRef = useRef();
+  const titleRef = useRef(null);
+  const genreRef = useRef(null);
   const authorIdRef = useRef(null);
 
+  const [errMsg, setErrorMsg] = useState(null)
+
   const addBookToDB = () => {
-    const title = titleRef.current.value;
+    const title =  titleRef.current.value;
     const genre = genreRef.current.value;
     let authorId = authorIdRef.current.value;
 
-    AddBook({ variables: { title, genre, authorId }, refetchQueries: [{query: allBooks }] });
+    AddBook({
+      variables: { title, genre, authorId },
+      refetchQueries: [{ query: allBooks }],
+    });
 
     //TODO
     // reset authorIdRef.current.value to empty string after every render
-
   };
-  if (error) {
-    return "... ups sometihng went wrong"
+  if (errMsg) {
+    return <div>
+      <p>{errMsg}</p>
+      <button onClick={() => setErrorMsg(null)}>Try again</button>
+      </div>
   }
   if (loading) {
     return " ... uploading book";
@@ -60,7 +72,7 @@ export default function AddBook() {
         <div>
           <label>Author</label>
           <select defaultValue="">
-            <option >Select Author</option>
+            <option>Select Author</option>
             {query.loading ? (
               <option>...loading</option>
             ) : (
